@@ -1,0 +1,16 @@
+<!doctype html>
+{#In this fle all variables inside {{}} will be#}
+{#replaced by Jinj2 template engine with actual data#}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <h1>Welcome {{name}}</h1>
+        <form action="/user" method="get">
+            <input type="text" name="name" id="name"/><br>
+            <input type="submit" value="Send"/>
+        </form>
+    </body>
+</html>
