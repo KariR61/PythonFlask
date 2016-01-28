@@ -1,16 +1,36 @@
-<!doctype html>
 {#In this fle all variables inside {{}} will be#}
 {#replaced by Jinj2 template engine with actual data#}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>{{title}}</title>
-    </head>
-    <body>
-        <h1>Welcome {{name}}</h1>
-        <form action="/user" method="get">
-            <input type="text" name="name" id="name"/><br>
-            <input type="submit" value="Send"/>
+
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{super()}}
+    <style>
+        .my_container{
+            
+            width: 500px;
+            margin: 30px auto;
+            padding: 8px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            background-color: beige;
+        }
+    </style>
+{% endblock %}
+{% block navbar %}{{super()}}{% endblock %}
+{% block body %}
+    {# call super() if you want to include code from base.html template #}
+    {{super()}}
+    <div class="my_container">
+        <form action="/login" method="POST">
+            {{ form.csrf_token }}
+            {{ form.email.label }}
+            {{ form.email(class='form-control',id='email') }}
+            
+            {{ form.passw.label }}
+            {{ form.passw(class='form-control') }}
+            
+            {{form.submit(class='btn btn-default')}}
         </form>
-    </body>
-</html>
+    </div>
+{% endblock %}
