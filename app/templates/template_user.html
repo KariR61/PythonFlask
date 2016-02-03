@@ -1,1 +1,44 @@
-<h2>Hello {{name}}</h2>
+{#In this fle all variables inside {{}} will be#}
+{#replaced by Jinja2 template engine with actual data#}
+
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{super()}}
+    <style>
+        .my_container{
+            
+            width: 500px;
+            margin: 30px auto;
+            padding: 8px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            background-color: beige;
+        }
+    </style>
+{% endblock %}
+{% block navbar %}{{super()}}{% endblock %}
+{% block body %}
+    {{super()}}
+    <div class="my_container">
+        <h1>Here will be table of your friends</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in friends %}
+                    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.address}}</td>
+                        <td>{{item.age}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
