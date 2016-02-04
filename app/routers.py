@@ -4,6 +4,7 @@ from flask import render_template,request, make_response,flash,redirect,session
 from app.forms import LoginForm,RegisterForm,FriendForm
 from app.db_models import Users,Friends
 from app import db
+from flask.ext.bcrypt import check_password_hash
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -15,8 +16,8 @@ def index():
         #check if form data is valid
         if login.validate_on_submit():
             #Check if corret username and password
-            user = Users.query.filter_by(email=login.email.data).filter_by(passw=login.passw.data)
-            if user.count() == 1:
+            user = Users.query.filter_by(email=login.email.data)
+            if (user.count() == 1) and (check_password_hash(user[0].passw,login.passw.data)):
                 print(user[0])
                 session['user_id'] = user[0].id
                 session['isLogged'] = True
@@ -69,28 +70,6 @@ def register():
             flash('Give proper imformation to email and password fields!')
             return render_template('template_register.html',form=register,isLogged=False)
 
-
-        
-@app.route('/friends',methods=['GET','POST'])
-def friends():
-    #Check that user has logged in before you let execute this route
-    if not('isLogged' in session) or (session['isLogged'] == False):
-        return redirect('/')
-    form = FriendForm()
-    if request.method == 'GET':
-        return render_template('template_friends.html',form=form,isLogged=True)
-    else:
-        if form.validate_on_submit():
-            temp = Friends(form.name.data,form.address.data,form.age.data,session['user_id'])
-            db.session.add(temp)
-            db.session.commit()
-            #Tapa 2
-            user = Users.query.get(session['user_id'])
-            print(user.friends)
-            return render_template('template_user.html',isLogged=True,friends=user.friends)
-        else:
-            flash('Give proper values to all fields')
-            return render_template('template_friends.html',form=form,isLogged=True)
 
 
 @app.route('/logout')

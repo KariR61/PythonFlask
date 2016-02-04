@@ -13,7 +13,7 @@ class RegisterForm(Form):
     submit = SubmitField('Register')
     
 class FriendForm(Form):
-    name = StringField('Enter your email',validators=[Required()])
+    name = StringField('Enter your name',validators=[Required()])
     address = StringField('Enter your address',validators=[Required()])
     age = IntegerField('Enter friend age',validators=[Required(),NumberRange(min=0,max=155,message="Enter value between 0-115")])
     submit = SubmitField('Save')
